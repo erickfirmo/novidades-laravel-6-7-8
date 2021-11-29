@@ -13,9 +13,17 @@ class CreatePostImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('post_imgas', function (Blueprint $table) {
+        Schema::create('post_images', function (Blueprint $table) {
             $table->bigIncrements('id');
+
+            $tbale->unsignedBigInteger('post_id');
+            $table->string('image');
+
             $table->timestamps();
+
+            $table->foreign('post_id')
+                ->references('id')
+                ->on('posts');
         });
     }
 
@@ -26,6 +34,6 @@ class CreatePostImagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post_imgas');
+        Schema::dropIfExists('post_images');
     }
 }
