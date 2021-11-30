@@ -11,9 +11,23 @@
 |
 */
 
+use \App\{Post, PostImage};
+
 Route::get('/', function () {
-
     $users = \App\User::all();
-
     return view('welcome', compact('users'));
+});
+
+
+Route::get('sub', function() {
+
+    // adicionando subquery com addSelect
+    $posts = \App\Post::addSelect([
+        'thumb' => PostImage::select('image')->whereColumn('post_id', 'posts.id')->limit(1)
+    ])->get();
+
+    // obtendo o mesmo resultado utilizando join com a classe DB
+    //$posts = \Illuminate\Support\Facades\DB::table('posts', 'p')->join('post_images', 'post_images.post_id', 'p.id')->get();
+
+    return $posts;
 });
