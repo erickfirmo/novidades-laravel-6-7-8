@@ -45,3 +45,6 @@ Route::get('lazy-collections', function() {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// Posts
+Route::resource('posts', PostController::class);
