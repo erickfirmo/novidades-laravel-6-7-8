@@ -21,7 +21,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = $this->post->paginate(30);
+        $posts = $this->post->orderBy('id', 'desc')->paginate(30);
 
         return view('posts.index', compact('posts'));
     }
@@ -45,12 +45,15 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        // Criando post usando Active Record
+        // $post = $this->post;
+        // $post->title = $data['title'];
+        // $post->description = $data['description'];
 
-        $post = $this->post;
-        $post->title = $data['title'];
-        $post->description = $data['description'];
+        //$post->save();
 
-        $post->save();
+        // Criando post usando Mass Assignment
+        $this->post->create($data);
 
         // redirect
     }
@@ -63,7 +66,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = $this->post->find($id);
+
+        return view('posts.show', compact('post'));
     }
 
     /**
@@ -86,7 +91,9 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $post = $this->post->find($id);
+        $post->update($data);
     }
 
     /**
@@ -97,6 +104,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = $this->post->find($id);
+        $post->delete();
     }
 }
