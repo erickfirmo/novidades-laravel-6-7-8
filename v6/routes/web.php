@@ -32,6 +32,16 @@ Route::get('sub', function() {
     return $posts;
 });
 
+Route::get('lazy-collections', function() {
+    $posts = \App\Post::cursor();
+
+    foreach($posts as $post)
+    {
+        echo $post->title . '<br>';
+    }
+
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
