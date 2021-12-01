@@ -66,9 +66,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = $this->post->find($id);
+        $post = $this->post->findOrFail($id);
 
-        return view('posts.show', compact('post'));
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -92,7 +92,7 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        $post = $this->post->find($id);
+        $post = $this->post->findOrFail($id);
         $post->update($data);
     }
 
@@ -104,7 +104,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = $this->post->find($id);
+        $post = $this->post->findOrFail($id);
         $post->delete();
     }
 }
