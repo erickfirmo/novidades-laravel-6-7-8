@@ -3,9 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Post;
 
 class PostController extends Controller
 {
+    private $post;
+
+    public function __construct(Post $post)
+    {
+        $this->post = $post;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +21,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = $this->post->paginate(30);
+
+        return view('posts.index', compact('posts'));
     }
 
     /**
