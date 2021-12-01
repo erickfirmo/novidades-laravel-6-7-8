@@ -28,7 +28,7 @@
             @empty
                 <tr>
                     <td collspan="3">
-                        <h2>Nenhum post encontrado</h2>
+                        <h2>Nenhuma postagem encontrada</h2>
                     </td>
                 </tr>
             @endforelse
