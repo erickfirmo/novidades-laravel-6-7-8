@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="col-12">
+        <a href="{{route('posts.create')}}" class="btn btn-lg btn-success mb-4">
+            Criar Postagem
+        </a>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -13,7 +18,11 @@
             @forelse($posts as $post)
             <tr>
                 <td>{{$post->id}}</td>
-                <td>{{$post->title}}</td>
+                <td>
+                    <a href="{{route('posts.show', $post->id)}}">
+                        {{$post->title}}
+                    </a>
+                </td>
                 <td>{{$post->created_at}}</td>
             </tr>
             @empty
