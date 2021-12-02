@@ -44,18 +44,31 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        // Criando post usando Active Record
-        // $post = $this->post;
-        // $post->title = $data['title'];
-        // $post->description = $data['description'];
+        try {
+            // Pegando dados da requisição
+            $data = $request->all();
 
-        //$post->save();
+            // Criando post usando Active Record
+            // $post = $this->post;
+            // $post->title = $data['title'];
+            // $post->description = $data['description'];
+            // $post->save();
 
-        // Criando post usando Mass Assignment
-        $this->post->create($data);
+            // Criando post usando Mass Assignment
+            $this->post->create($data);
 
-        // redirect
+            flash('Post criado com sucesso!')->success();
+            return redirect()->route('posts.index');
+
+        } catch (\Exception $e) {
+            if(env('APP_DEBUG'))
+            {
+                flash($e->getMessage())->warning();
+                return redirect()->back();
+            }
+            flash('Ocorreu um erro ao criar postagem!')->warning();
+            return redirect()->back();
+        }
     }
 
     /**
@@ -66,7 +79,16 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = $this->post->findOrFail($id);
+        try {
+            $post = $this->post->findOrFail($id);
+        } catch (\Exception $e) {
+            if(env('APP_DEBUG')) {
+                flash($e->getMessage())->warning();
+                return redirect()->back();
+            }
+            flash('Postagem não encontrada!')->warning();
+            return redirect()->back();
+        }
 
         return view('posts.edit', compact('post'));
     }
@@ -91,9 +113,22 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->all();
-        $post = $this->post->findOrFail($id);
-        $post->update($data);
+        try {
+            $data = $request->all();
+            $post = $this->post->findOrFail($id);
+            $post->update($data);
+
+            flash('Post atualizado com sucesso!')->success();
+
+            return redirect()->route('posts.edit', ['post' => $post->id]);
+        } catch (\Exception $e) {
+            if(env('APP_DEBUG')) {
+                flash($e->getMessage())->warning();
+                return redirect()->back();
+            }
+            flash('Ocorreu um erro ao atualizar a postagem!')->warning();
+            return redirect()->back();
+        }
     }
 
     /**
@@ -104,7 +139,16 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = $this->post->findOrFail($id);
-        $post->delete();
+        try {
+            $post = $this->post->findOrFail($id);
+            $post->delete();
+        } catch (\Exception $e) {
+            if(env('APP_DEBUG')) {
+                flash($e->getMessage())->warning();
+                return redirect()->back();
+            }
+            flash('Ocorreu um erro ao deletar postagem!')->warning();
+            return redirect()->back();
+        }
     }
 }
