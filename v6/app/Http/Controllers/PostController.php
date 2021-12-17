@@ -106,7 +106,8 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        return redirect()->route('posts.show', ['post' => $id]);
+
     }
 
     /**
@@ -122,7 +123,7 @@ class PostController extends Controller
             'title' => 'required|max:255',
             'description' => 'required',
         ]);
-        
+
         try {
             $data = $request->all();
             $post = $this->post->findOrFail($id);
@@ -130,7 +131,7 @@ class PostController extends Controller
 
             flash('Post atualizado com sucesso!')->success();
 
-            return redirect()->route('posts.edit', ['post' => $post->id]);
+            return redirect()->route('posts.show', ['post' => $post->id]);
         } catch (\Exception $e) {
             if(env('APP_DEBUG')) {
                 flash($e->getMessage())->warning();
