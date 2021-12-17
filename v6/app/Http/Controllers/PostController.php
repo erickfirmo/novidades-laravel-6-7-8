@@ -44,6 +44,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+        ]);
+
         try {
             // Pegando dados da requisição
             $data = $request->all();
@@ -113,6 +118,11 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+        ]);
+        
         try {
             $data = $request->all();
             $post = $this->post->findOrFail($id);
