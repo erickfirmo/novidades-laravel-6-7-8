@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
+    @include('partials.alert')
+
     <form action="{{route('posts.update', ['post' => $post->id])}}" method="post">
         @csrf
         @method('PUT')
@@ -10,8 +13,7 @@
         </div>
         <div class="form-group">
             <label for="description">Descrição</label>
-            <textarea class="form-control" name="description" id="description" cols="30" rows="10" value="{{$post->description}}">
-            </textarea>
+            <textarea class="form-control" name="description" id="description" cols="30" rows="10">{{ $post->description }}</textarea>
         </div>
 
         <button type="submit" class="btn btn-lg btn-success">Atualizar Postagem</button>
